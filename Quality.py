@@ -9,37 +9,34 @@ import lex_rank_modified
 def calc_quality():
 
     with open("reviews_by_seed.json") as in_file:
-        data = json.load(in_file)
+        my_data = json.load(in_file)
     
-    #TODO: Make use of stopword list
     with open("stopwords.txt") as s_file:
-        stopword_list = s_file.read().split()
+        my_stopword_list = s_file.read().split()
 
-    k = 0
-    p = []
-    md = {}
     summarizer = lex_rank_modified.LexRankSummarizer()
-    #summarizer.stop_words(stopword_list)
+    summarizer.stop_words = my_stopword_list
 
-    for kk in data:
-        prelim_doc = list(map(preprocess,data[kk]))
-        s = list(map(to_sentence, prelim_doc))
-        p.append(Paragraph(s))
-        d = ObjectDocumentModel(p)
-        ratings = summarizer(d)
+    matrix_dict = {}
+    n_docs = 0
+    for keywords, orig_sents in my_data.iteritems():
+        processed_sents = list(map(to_sentence, orig_sents))
+        my_paragraphs = [Paragraph(processed_sents)]
+        my_doc = ObjectDocumentModel(my_paragraphs)
+
+        ratings = summarizer(my_doc)
+#        sentences_words = [summarizer._to_words_set(s) for s in my_doc.sentences]
+
         feat_matrix = numpy.matrix(ratings).transpose()
         qual_matrix = numpy.exp(feat_matrix)
-        md['q' + str(k+1)] = qual_matrix
-        k+=1
-        p = []
+        matrix_dict['q' + str(n_docs + 1)] = qual_matrix
+        n_docs += 1
 
-    scipy.io.savemat('qual.mat', md)
+    scipy.io.savemat('qual.mat', matrix_dict)
     return
 
-def preprocess(text):
-    return to_unicode(text).strip()
-
 def to_sentence(text):
+    text = to_unicode(text).strip()
     return Sentence(text, Tokenizer("english"))
 
 if __name__ == '__main__':

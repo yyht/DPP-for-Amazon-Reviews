@@ -2,38 +2,32 @@ import json
 import scipy.io
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-def calc_similarity():
+def calc_similarity(n_sents):
 
     with open("reviews_by_seed.json") as in_file:
-        data = json.load(in_file)
+        my_data = json.load(in_file)
 
     with open("stopwords.txt") as s_file:
-        stopword_list = s_file.read().split()
+        my_stopword_list = s_file.read().split()
 
-    docs = []
-    num_docs = 0
-    for kk in data:
-        docs += data[kk]
-        num_docs += 1
+    my_docs = []
+    n_docs = 0
+    for keywords, sentences in my_data.iteritems():
+        my_docs += sentences
+        n_docs += 1
 
-    #stopword_list = ['and','to','the','of']
+    vectorizer = TfidfVectorizer(stop_words = my_stopword_list)
+    tfidf_matrix = vectorizer.fit_transform(my_docs)
 
-    vectorizer = TfidfVectorizer(stop_words=stopword_list)
-    tfidf_matrix = vectorizer.fit_transform(docs)
-
-    md = {}
-    for k in xrange(num_docs):
-        curr_matrix = tfidf_matrix[k*100:(k+1)*100]
+    matrix_dict = {}
+    for k in xrange(n_docs):
+        curr_matrix = tfidf_matrix[k*n_sents:(k+1)*n_sents]
         sim_matrix = curr_matrix * curr_matrix.transpose()
-        md['s' + str(k+1)] = sim_matrix.todense()
+        matrix_dict['s' + str(k+1)] = sim_matrix.todense()
 
-    scipy.io.savemat('sim.mat', md)
+    scipy.io.savemat('sim.mat', matrix_dict)
     return
 
 
 if __name__ == '__main__':
-    calc_similarity()
-
-
-
-
+    calc_similarity(100)
