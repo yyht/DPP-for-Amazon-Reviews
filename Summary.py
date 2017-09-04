@@ -18,9 +18,6 @@ def gen_summary():
 	with open("summary.json", "w") as out_file:
 		json.dump(summ_dict, out_file)
 
-	with open("summary.json") as in_file:
-		print json.load(in_file)
-
 	return
 
 if __name__ == '__main__':
