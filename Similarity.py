@@ -23,9 +23,10 @@ def calc_similarity(n_sents):
     for k in xrange(n_docs):
         curr_matrix = tfidf_matrix[k*n_sents:(k+1)*n_sents]
         sim_matrix = curr_matrix * curr_matrix.transpose()
-        matrix_dict['s' + str(k+1)] = sim_matrix.todense()
+        matrix_dict[my_data.keys()[k]] = sim_matrix.todense()
 
     scipy.io.savemat('sim.mat', matrix_dict)
+
     return
 
 

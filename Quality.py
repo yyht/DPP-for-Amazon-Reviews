@@ -29,7 +29,7 @@ def calc_quality():
 
         feat_matrix = numpy.matrix(ratings).transpose()
         qual_matrix = numpy.exp(feat_matrix)
-        matrix_dict['q' + str(n_docs + 1)] = qual_matrix
+        matrix_dict[keywords] = qual_matrix
         n_docs += 1
 
     scipy.io.savemat('qual.mat', matrix_dict)
