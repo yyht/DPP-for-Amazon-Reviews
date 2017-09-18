@@ -1,13 +1,13 @@
 % given a set of quality and similarity matrices, select the k best
 % sentences from each document
 
-n_selections = 10;
+n_selections = 100;
 
-qual = load('qual.mat');
+qual = load('qual.mat', '-mat');
 qual = orderfields(qual);
 qual_fields = fieldnames(qual);
 
-sim = load('sim.mat');
+sim = load('sim.mat', '-mat');
 sim = orderfields(sim);
 sim_fields = fieldnames(sim);
 
@@ -30,7 +30,7 @@ for curr_doc = 1 : length(qual_fields)
     %selections = horzcat(selections, zeros(n_selections,1));
     val_old = 0;
 
-    for t = 1 : n_selections
+    for t = 1 : min(n_selections, length(qual_mat))
         inds = find(candidates);
         p = zeros(size(inds));
         
