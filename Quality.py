@@ -30,7 +30,7 @@ def calc_quality(filename):
         qual_matrix = numpy.exp(feat_matrix)
         matrix_dict['q' + str(n_docs)] = qual_matrix
         n_docs += 1
-        print n_docs
+        #print n_docs
 
     scipy.io.savemat('qual.mat', matrix_dict)
     return
