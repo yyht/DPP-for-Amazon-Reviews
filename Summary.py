@@ -11,7 +11,7 @@ def gen_summary(filename):
 
 	doc_num = 0
 	for doc in my_data:
-		doc['responses'] = [doc['responses'][(i-1)] for i in select[doc_num] if i != -1]
+		doc['responses'] = [doc['responses'][(i-1)] for i in select[doc_num] if i != 0]
 		doc_num += 1
 		print doc_num
 
