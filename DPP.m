@@ -4,11 +4,20 @@
 n_selections = 100;
 
 qual = load('qual.mat', '-mat');
-qual = orderfields(qual);
+sim = load('sim.mat', '-mat');
+
+sim_field_order = cell(size(fieldnames(sim)));
+qual_field_order = cell(size(fieldnames(sim)));
+
+for i = 1 : length(fieldnames(qual))
+    sim_field_order{i} = char(join(["s", string(i-1)], ""));
+    qual_field_order{i} = char(join(["q", string(i-1)], ""));
+end
+
+qual = orderfields(qual, qual_field_order);
 qual_fields = fieldnames(qual);
 
-sim = load('sim.mat', '-mat');
-sim = orderfields(sim);
+sim = orderfields(sim, sim_field_order);
 sim_fields = fieldnames(sim);
 
 %selections = [];
