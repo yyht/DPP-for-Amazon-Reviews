@@ -13,7 +13,7 @@ def gen_summary(filename):
 	for doc in my_data:
 		doc['responses'] = [doc['responses'][(i-1)] for i in select[doc_num] if i != 0]
 		doc_num += 1
-		print doc_num
+		#print doc_num
 
 	with open("summary.json", "w") as out_file:
 		json.dump(my_data, out_file)
