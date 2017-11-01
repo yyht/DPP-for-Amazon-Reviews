@@ -40,4 +40,4 @@ def to_sentence(text):
     return Sentence(text, Tokenizer("english"))
 
 if __name__ == '__main__':
-    calc_quality("aspect_query_responses.json")
+    calc_quality("aspect_query_responses_10192017_with_vecs.json")

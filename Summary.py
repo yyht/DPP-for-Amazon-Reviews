@@ -12,6 +12,7 @@ def gen_summary(filename):
 	doc_num = 0
 	for doc in my_data:
 		doc['responses'] = [doc['responses'][(i-1)] for i in select[doc_num] if i != 0]
+		del doc['vecs']
 		doc_num += 1
 		#print doc_num
 
@@ -21,4 +22,4 @@ def gen_summary(filename):
 	return
 
 if __name__ == '__main__':
-	gen_summary("aspect_query_responses.json")
+	gen_summary("aspect_query_responses_10192017_with_vecs.json")
